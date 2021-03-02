@@ -1,10 +1,11 @@
 """
+This module contains class Menu.
 GitHub repository: https://github.com/Andrusyshyn-Orest/logistic_system.git
 """
 
 import sys
 
-from logistic_system import Item, Vehicle, Location, Order, LogisticSystem
+from logistic_system import Item, Vehicle, Order, LogisticSystem
 
 id_of_item = 0
 
@@ -12,6 +13,7 @@ class Menu:
     '''Display a menu and respond to choices when run.'''
 
     def __init__(self):
+        """ Initialize a menu """
         self.username = None
         self.city = None
         self.postoffice = None
@@ -25,7 +27,8 @@ class Menu:
                 "4": self.remove_item_from_cart,
                 "5": self.place_order,
                 "6": self.track_order,
-                "7": self.quit
+                "7": self.show_orders,
+                "8": self.quit
                 }
         self.available_items = {
                 "1": ("flowers", 11),
@@ -41,8 +44,7 @@ class Menu:
                 }
 
     def display_menu(self):
-        """
-        """
+        """ Displays a menu """
         print("""
 
 Menu
@@ -52,14 +54,15 @@ Menu
 4. Remove from cart
 5. Place order
 6. Track order
-7. Quit
+7. Show orders
+8. Quit
 """)
 
     def run(self):
         '''Display the menu and respond to choices.'''
         try:
             numbers = input('Enter vehicle numbers separated with\
-    space (f.e.: 1 2 3):').split()
+ space (f.e.: 1 2 3):').split()
             numbers = set(numbers)
             for number in numbers:
                 self.vehicles.append(Vehicle(int(number)))
@@ -90,6 +93,7 @@ Menu
 
     def show_available_items(self, notes=None):
         """
+        Show items which user can buy.
         """
 
         print("""
@@ -108,8 +112,7 @@ Available items:
 """)
 
     def show_cart(self):
-        """
-        """
+        """ Show cart. """
 
         if not self.cart:
             print('Cart is empty')
@@ -118,8 +121,7 @@ Available items:
                 print(f'id: {item[1]}; {item[2][0]}, {item[2][1]} UAH')
 
     def add_item_to_cart(self):
-        """
-        """
+        """ Add item to cart. """
 
         choice = input('Enter item number:')
         item_tuple = self.available_items.get(choice)
@@ -133,8 +135,7 @@ Available items:
             print("{0} is not a valid choice".format(choice))
 
     def remove_item_from_cart(self):
-        """
-        """
+        """ Remove item from cart. """
 
         choice = input('Enter item id:')
         success = False
@@ -147,8 +148,7 @@ Available items:
             print("{0} is not a valid choice".format(choice))
 
     def place_order(self):
-        """
-        """
+        """ Place order. """
 
         my_items = []
         for item in self.cart:
@@ -158,9 +158,7 @@ Available items:
 
 
     def track_order(self):
-        """
-        """
-
+        """ Track order. """
 
         try:
             order_number = int(input('Enter order number: '))
@@ -168,9 +166,24 @@ Available items:
         except:
             print("Invalid order number")
 
+    def show_orders(self):
+        """ Show orders. """
+
+        if self.logisticsystem.orders == []:
+            print('No orders have been placed.')
+            return
+
+        output = ''
+        for order in self.logisticsystem.orders:
+            items = []
+            for item in order.items:
+                items.append(f'{item.name}: {item.price} UAH')
+            output += f'order number: {order.order_id}; items: {items};\
+ total price: {order.calculateAmount()} UAH.\n'
+        print(output[:-1])
+
     def quit(self):
-        """
-        """
+        """ Quits the program. """
         print("Thank you for using our program.")
         sys.exit(0)
 
