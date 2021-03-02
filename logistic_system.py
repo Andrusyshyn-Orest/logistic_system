@@ -118,10 +118,4 @@ f'Your order #{orderid} is sent to {order.location.city}. Total price:\
 
 
 if __name__ == "__main__":
-    vehicles = [Vehicle(1), Vehicle(2)]
-    logSystem = LogisticSystem(vehicles)
-    my_items = [Item('book',110), Item('chupachups',44)]
-    my_order = Order(user_name = 'Oleg', city = 'Lviv',
-                      postoffice = 53, items = my_items)
-    logSystem.placeOrder(my_order)
-    logSystem.trackOrder(234976475)
+    pass
